@@ -7,18 +7,40 @@
   <version>1.0-SNAPSHOT</version>
   <name>gch-kafka-streaming</name>
   <url>http://maven.apache.org</url>
+<repositories>
+    <repository>
+        <id>io.confluent</id>
+        <url>http://packages.confluent.io/maven/</url>
+    </repository>
+</repositories>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+        <groupId>org.apache.kafka</groupId>
+        <artifactId>kafka-streams</artifactId>
+        <version>0.11.0.0</version>
     </dependency>
-        <dependency>
-      <groupId>org.apache.kafka</groupId>
-      <artifactId>kafka-clients</artifactId>
-      <version>0.8.2.2</version>
+    <dependency>
+        <groupId>org.apache.kafka</groupId>
+        <artifactId>kafka-clients</artifactId>
+        <version>0.11.0.0</version>
+    </dependency>
+
+    <!-- Dependencies below are required/recommended only when using Apache Avro. -->
+    <dependency>
+        <groupId>io.confluent</groupId>
+        <artifactId>kafka-avro-serializer</artifactId>
+        <version>3.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro</artifactId>
+        <version>1.7.7</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro-maven-plugin</artifactId>
+        <version>1.7.7</version>
     </dependency>
   </dependencies>
     <build>
@@ -28,7 +50,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ch.scigility.kafka.StreamProducer</mainClass>
+                            <mainClass>ch.scigility.kafka.streamApp</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -50,7 +72,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<configuration>
-					<mainClass>ch.scigility.kafka.App</mainClass>
+					<mainClass>ch.scigility.kafka.streamApp</mainClass>
 				</configuration>
 			</plugin>
         </plugins>
