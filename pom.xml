@@ -28,7 +28,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ch.scigility.kafka.App</mainClass>
+                            <mainClass>ch.scigility.kafka.StreamProducer</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
