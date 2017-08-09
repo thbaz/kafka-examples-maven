@@ -1,6 +1,7 @@
 package ch.scigility.kafka;
 
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
@@ -37,11 +38,11 @@ public class StreamProcessor {
 
 
     System.out.println("fullStream");
-    KStream<String, String> fullStream = builder.stream("co_full_1");
+    KStream<String, String> fullStream = builder.stream("co_full_out");
     fullStream.print();
 
     System.out.println("cdcStream");
-    KStream<String, String> cdcStream = builder.stream("co_cdc_1");
+    KStream<String, String> cdcStream = builder.stream("co_cdc_out");
     cdcStream.print();
 
     //KTable<String, Long> wordCounts = textLines.countByKey("fieldId");
