@@ -11,7 +11,7 @@ public class StreamProducerTest {
           Thread thread = new Thread(new Runnable() {
               @Override
               public void run() {
-                  System.out.println("Running");
+                  System.out.println("Running Process:");
                   try {
                     StreamProcessor.main();
                   } catch (IOException e) {
@@ -25,7 +25,7 @@ public class StreamProducerTest {
           long endTimeMillis = System.currentTimeMillis() + runFor;
           while (thread.isAlive()) {
               if (System.currentTimeMillis() > endTimeMillis) {
-                  System.out.println("The End");
+                  System.out.println("end of this batch");
                   break;
               }
           }

@@ -13,7 +13,7 @@ public class StreamProducer {
     public static void main( ) throws IOException
     {
         //Assign topicName to string Variable
-        String topicName = "co_full_2";
+        String topicName = "other_topic";
         //create instance for properties to access producer configs
         Properties props = new Properties();
         // assign localhost id
