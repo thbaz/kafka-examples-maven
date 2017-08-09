@@ -70,6 +70,8 @@ public class Partners {
 		    final KStreamBuilder builder = new KStreamBuilder();
 		    builder.stream(Serdes.String(), LandingSerde, landingTopic)
 		    		.filter((key, raw) -> isPartners(raw))
+						System.out.println(key);
+						System.out.println(raw);
 		    		// map to PArtner .map((key, partner) -> new KeyValue<>());
 		    		// .to new topic
 		    ;
