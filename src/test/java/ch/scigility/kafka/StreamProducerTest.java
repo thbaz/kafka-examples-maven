@@ -1,6 +1,6 @@
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import ch.scigility.kafka.Consumer;
+import ch.scigility.kafka.StreamProducer;
 import java.io.IOException;
 
 public class StreamProducerTest {

@@ -15,7 +15,7 @@ import com.google.common.io.Resources;
 
 public class Consumer {
 
-	public static void main() throws IOException {
+	public static void main() throws Exception {
         // set up house-keeping
         ObjectMapper mapper = new ObjectMapper();
 

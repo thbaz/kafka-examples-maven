@@ -4,21 +4,16 @@ import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-
+import java.io.IOException;
 /**
  * Hello world!
  *
  */
 public class StreamProducer {
-    public static void main( String[] args ) throws Exception
+    public static void main( ) throws IOException
     {
-        if(args.length == 0){
-            System.out.println("Enter topic name as argument");
-            return;
-        }
-
         //Assign topicName to string Variable
-        String topicName = args[0].toString();
+        String topicName = "co_full_2";
         //create instance for properties to access producer configs
         Properties props = new Properties();
         // assign localhost id
