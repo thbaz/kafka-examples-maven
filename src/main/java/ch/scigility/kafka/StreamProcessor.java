@@ -36,7 +36,6 @@ public class StreamProcessor {
     final KStream<byte[], String> uppercasedWithMapValues = textLines.mapValues(String::toUpperCase);
     uppercasedWithMapValues.to("UppercasedTextLinesTopic");
 
-
     System.out.println("fullStream");
     KStream<String, String> fullStream = builder.stream("co_full_out");
     fullStream.print();

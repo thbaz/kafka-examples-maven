@@ -13,7 +13,7 @@ public class StreamProducerTest {
               public void run() {
                   System.out.println("Running Process:");
                   try {
-                    StreamProcessor.main();
+                    Consumer.main();
                   } catch (IOException e) {
                       // Do something here
                   }

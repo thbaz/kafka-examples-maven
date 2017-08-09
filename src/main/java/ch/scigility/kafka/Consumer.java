@@ -17,27 +17,25 @@ public class Consumer {
 
 	public static void main() throws IOException {
         // set up house-keeping
-        ObjectMapper mapper = new ObjectMapper();
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "172.31.24.135:9092");
+        props.put("enable.auto.commit", "true");
+        props.put("auto.commit.interval.ms", "1000");
+        props.put("session.timeout.ms", "30000");
+        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
         // and the consumer
-        KafkaConsumer<String, String> consumer;
-        try (InputStream props = Resources.getResource("consumer.props").openStream()) {
-            Properties properties = new Properties();
-            properties.load(props);
-            consumer = new KafkaConsumer<>(properties);
-        }
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+
+
         consumer.subscribe(Arrays.asList("co_full_1"));
 
-        int timeouts = 0;
-        //noinspection InfiniteLoopStatement
         while (true) {
-            // read records with a short timeout. If we time out, we don't really care.
-            System.out.println("read records with a short timeout");
-            ConsumerRecords<String, String> records = consumer.poll(100);
-            for (ConsumerRecord<String, String> record : records) {
-              System.out.println("topic = "+record.topic()+", partition = "+record.partition()+", offset = "+record.offset()+", key = "+record.key()+", country = "+record.value()+"\n");
-            }
-        }
+         ConsumerRecords<String, String> records = consumer.poll(100);
+         for (ConsumerRecord<String, String> record : records)
+             System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+           }
     }
 
 
