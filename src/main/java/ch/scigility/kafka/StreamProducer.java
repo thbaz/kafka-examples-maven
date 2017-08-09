@@ -17,7 +17,7 @@ public class StreamProducer {
         //create instance for properties to access producer configs
         Properties props = new Properties();
         // assign localhost id
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", "pocathon-confluent1:9092");
         props.put("acks", "all");
         props.put("retries", 0);
         props.put("batch.size", 16384);
