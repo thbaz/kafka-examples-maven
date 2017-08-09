@@ -24,9 +24,6 @@ public class Consumer {
         try (InputStream props = Resources.getResource("consumer.props").openStream()) {
             Properties properties = new Properties();
             properties.load(props);
-            if (properties.getProperty("group.id") == null) {
-                properties.setProperty("group.id", "group-" + new Random().nextInt(100000));
-            }
             consumer = new KafkaConsumer<>(properties);
         }
         consumer.subscribe(Arrays.asList("co_full_1"));
@@ -35,6 +32,7 @@ public class Consumer {
         //noinspection InfiniteLoopStatement
         while (true) {
             // read records with a short timeout. If we time out, we don't really care.
+            System.out.println("read records with a short timeout");
             ConsumerRecords<String, String> records = consumer.poll(100);
             if (records.count() == 0) {
                 timeouts++;
