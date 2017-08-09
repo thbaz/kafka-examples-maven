@@ -1,9 +1,15 @@
 package ch.scigility.kafka;
 
-import java.net.URLEncoder;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
+
+import java.net.URLEncoder;
+import java.util.UUID;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Random;
@@ -12,12 +18,12 @@ import ch.scigility.kafka.canonical.JsonDeserializer;
 import ch.scigility.kafka.canonical.JsonSerializer;
 import ch.scigility.kafka.canonical.Landing;
 import ch.scigility.kafka.canonical.Partners;
+import ch.scigility.kafka.canonical.ContractSchema;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-
 
 import org.apache.kafka.common.metrics.Sensor;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -39,7 +45,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.apache.kafka.clients.producer.*;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +52,14 @@ import java.util.Map;
 import ch.scigility.kafka.canonical.ChangedFieldsList;
 
 import org.apache.kafka.common.serialization.StringSerializer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+
 public class Consumer {
 
 	public static void main() throws IOException {
+
+        String schema = String(Files.readAllBytes(Paths.get("resources/contract_schema.avsc"),StandardCharsets.UTF_8));
         // set up house-keeping
         Properties props = new Properties();
         props.put("zookeeper.connect", "127.0.0.1:2181");
@@ -61,6 +71,17 @@ public class Consumer {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, "your_client_id");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        Properties propsAvro = new Properties();
+                // hardcoding the Kafka server URI for this example
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("acks", "all");
+        props.put("retries", 0);
+        props.put("key.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
+        props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
+        props.put("schema.registry.url", schema);
+
+
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
@@ -134,22 +155,23 @@ public class Consumer {
 
         //Landing landing = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Landing.class);
         Producer<String, String> producer = new KafkaProducer<String, String>(props);
+
         while (true) {
 
          ConsumerRecords<String, String> records = consumer.poll(100);
 
          for (ConsumerRecord<String, String> record : records){
-           System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+
            //Partners partners = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Partners.class);
            //Partners partners = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Partners.class);
            try {
 
            Landing landing = new ObjectMapper().readValue(record.value(), Landing.class);
            //Container container = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Container.class);
-           System.out.println(landing.toString());
 
            if(landing.getObjectId().equals("CORE_CONTRACTS")){
              System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+             System.out.println(landing.toString());
 
              //for all changedFieldsList
              List<ChangedFieldsList> changedFieldsList = landing.getChangedFieldsList();
@@ -158,11 +180,15 @@ public class Consumer {
                   System.out.println(changedFieldsList.get(i).getFieldValue());
                   //getFieldId
                   //getFieldValue
-                  if(changedFieldsList.get(i).getFieldId().equals("COCO_ID"))
-                    producer.send(new ProducerRecord<String, String>("co_full_out", "INCO_ID",changedFieldsList.get(i).getFieldValue()));
+                  if( changedFieldsList.get(i).getFieldId().equals("COCO_ID") ){
+                    producer.send(new ProducerRecord<String,String>("co_full_out", "INCO_ID", changedFieldsList.get(i).getFieldValue()));
+                    ProducerRecord<String, contract_schema> record = new ProducerRecord<String, contract_schema>("co_full_contracts", event.getIp().toString(), event);
+                    producer.send(record).get();
+
+                  }
               }
             }
-          } 
+          }
        catch (IOException ex) {
          System.out.printf("IOException");
        }
