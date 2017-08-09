@@ -20,7 +20,7 @@ public class StreamProducerTest {
               }
           });
           thread.start();
-          int runFor = 10*1000;
+          int runFor = 30*1000;
           int sleepFor = 1000;
           long endTimeMillis = System.currentTimeMillis() + runFor;
           while (thread.isAlive()) {
