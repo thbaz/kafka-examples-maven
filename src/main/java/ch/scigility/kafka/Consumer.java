@@ -38,7 +38,13 @@ import java.util.Properties;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.kafka.clients.producer.*;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import ch.scigility.kafka.canonical.ChangedFieldsList;
 public class Consumer {
 
 	public static void main() throws IOException {
@@ -147,12 +153,10 @@ public class Consumer {
                   //getFieldId
                   //getFieldValue
                   if(changedFieldsList.get(i).getFieldId().equals("COCO_ID"))
-                  producer.send(new ProducerRecord<String, String>("co_full_out", "INCO_ID",""));
+                    producer.send(new ProducerRecord<String, String>("co_full_out", "INCO_ID",changedFieldsList.get(i).getFieldValue()));
               }
            }
-
-
-
         }
     }
+}
 }
