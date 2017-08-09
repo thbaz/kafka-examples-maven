@@ -45,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 import ch.scigility.kafka.canonical.ChangedFieldsList;
+
+import org.apache.kafka.common.serialization.StringSerializer;
 public class Consumer {
 
 	public static void main() throws IOException {
@@ -61,6 +63,8 @@ public class Consumer {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
         // and the consumer
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
