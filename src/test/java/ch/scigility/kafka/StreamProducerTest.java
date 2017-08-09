@@ -28,11 +28,6 @@ public class StreamProducerTest {
                   System.out.println("The End");
                   break;
               }
-              try {
-                  System.out.println("Running: "+((endTimeMillis - System.currentTimeMillis())/1000) +" s");
-                  Thread.sleep(sleepFor);
-              }
-              catch (InterruptedException t) {}
           }
     }
     //@Before
