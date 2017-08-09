@@ -28,18 +28,18 @@ public class Partners {
 	}
 
 	 public static void main() throws IOException {
-		   String landingTopic = "co_cdc_1";
-		 		final String bootstrapServers = "172.31.24.135:9092";
+		   String landingTopic = "";
 		    final Properties streamsConfiguration = new Properties();
 		    streamsConfiguration.put(StreamsConfig.APPLICATION_ID_CONFIG, "canonical-partners");
 		    streamsConfiguration.put(StreamsConfig.CLIENT_ID_CONFIG, "canonical-partners-client");
-		    streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+		    streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "172.31.24.135:9092");
 		    streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 		    streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 		    streamsConfiguration.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000);
 		    streamsConfiguration.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
 
 		    //SERDE Landing
+				System.out.println("SERDE Landing");
 	        Map<String, Object> landingProps = new HashMap<>();
 
 	        final Serializer<Landing> landingSerializer = new JsonSerializer<>();
@@ -52,8 +52,8 @@ public class Partners {
 
 	        final Serde<Landing> LandingSerde = Serdes.serdeFrom(landingSerializer, landingDeserializer);
 
-
 	        //SERDE Partner
+					System.out.println("SERDE Partner");
 	        Map<String, Object> partnerProps = new HashMap<>();
 
 	        final Serializer<Landing> partnerSerializer = new JsonSerializer<>();
@@ -66,10 +66,8 @@ public class Partners {
 
 	        final Serde<Landing> PartnerSerde = Serdes.serdeFrom(partnerSerializer, partnerDeserializer);
 
-
+					System.out.println("Builder");
 		    final KStreamBuilder builder = new KStreamBuilder();
-
-
 		    builder.stream(Serdes.String(), LandingSerde, landingTopic)
 		    		.filter((key, raw) -> isPartners(raw))
 		    		// map to PArtner .map((key, partner) -> new KeyValue<>());
@@ -77,12 +75,11 @@ public class Partners {
 		    ;
 
 
-
+				System.out.println("KafkaStreams");
 		    final KafkaStreams streams = new KafkaStreams(builder, streamsConfiguration);
-		    streams.cleanUp();
 		    streams.start();
 
 		    // Add shutdown hook to respond to SIGTERM and gracefully close Kafka Streams
-		    Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+		    //Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 	 }
 }
