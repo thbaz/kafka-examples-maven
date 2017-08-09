@@ -34,30 +34,9 @@ public class Consumer {
             // read records with a short timeout. If we time out, we don't really care.
             System.out.println("read records with a short timeout");
             ConsumerRecords<String, String> records = consumer.poll(100);
-            if (records.count() == 0) {
-                timeouts++;
-            } else {
-                System.out.printf("Got %d records after %d timeouts\n", records.count(), timeouts);
-                timeouts = 0;
-            }
-            for (ConsumerRecord<String, String> record : records) {
-                if(record.topic().equals("co_full_1")) {
-                        // the send time is encoded inside the message
-                        /*
-                	    JsonNode msg = mapper.readTree(record.value());
-                        if (msg.get("type").asText().equals("test")) {
-                                long latency = (long) ((System.nanoTime() * 1e-9 - msg.get("t").asDouble()) * 1000);
-                        }
-                        else {
-                                throw new IllegalArgumentException("Illegal message type: " + msg.get("type"));
-                        }
-                        */
 
-                	    System.out.println(record.key() + " - " + record.value());
-                }
-                else {
-                        throw new IllegalStateException("Shouldn't be possible to get message on topic " + record.topic());
-                }
+            for (ConsumerRecord<String, String> record : records) {
+              System.out.println(record.key() + " - " + record.value());
             }
         }
     }
