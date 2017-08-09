@@ -7,28 +7,54 @@ import java.io.IOException;
 
 public class StreamProducerTest {
     @Test
-    public void ConsumerTopic() {
-          Thread thread = new Thread(new Runnable() {
-              @Override
-              public void run() {
-                  System.out.println("Running Process:");
-                  try {
-                    Consumer.main();
-                  } catch (IOException e) {
-                      // Do something here
-                  }
-              }
-          });
-          thread.start();
-          int runFor = 30*1000;
-          int sleepFor = 1000;
-          long endTimeMillis = System.currentTimeMillis() + runFor;
-          while (thread.isAlive()) {
-              if (System.currentTimeMillis() > endTimeMillis) {
-                  System.out.println("end of this batch");
-                  break;
+    public void ConsumerTopicTest() {
+      System.out.println("ConsumerTopicTest:");
+      Thread thread = new Thread(new Runnable() {
+          @Override
+          public void run() {
+
+              try {
+                Consumer.main();
+              } catch (IOException e) {
+                  // Do something here
               }
           }
+      });
+      thread.start();
+      int runFor = 30*1000;
+      int sleepFor = 1000;
+      long endTimeMillis = System.currentTimeMillis() + runFor;
+      while (thread.isAlive()) {
+          if (System.currentTimeMillis() > endTimeMillis) {
+              System.out.println("end of this batch");
+              break;
+          }
+      }
+    }
+    @Test
+    public void StreamProcessorTest() {
+      System.out.println("ConsumerTopicTest:");
+      Thread thread = new Thread(new Runnable() {
+          @Override
+          public void run() {
+
+              try {
+                StreamProcessor.main();
+              } catch (IOException e) {
+                  // Do something here
+              }
+          }
+      });
+      thread.start();
+      int runFor = 30*1000;
+      int sleepFor = 1000;
+      long endTimeMillis = System.currentTimeMillis() + runFor;
+      while (thread.isAlive()) {
+          if (System.currentTimeMillis() > endTimeMillis) {
+              System.out.println("end of this batch");
+              break;
+          }
+      }
     }
     //@Before
     //@After

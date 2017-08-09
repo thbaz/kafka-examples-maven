@@ -1,5 +1,12 @@
 package ch.scigility.kafka;
 
+import java.util.UUID;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Random;
+
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.streams.KafkaStreams;
@@ -7,6 +14,7 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import java.io.IOException;
 
 import java.util.Arrays;
@@ -25,8 +33,17 @@ public class StreamProcessor {
     props.put("batch.size", 16384);
     props.put("linger.ms", 100);
     props.put("buffer.memory", 33554432);
-    props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    props.put("zookeeper.connect", "127.0.0.1:2181");
+    props.put("bootstrap.servers", "172.31.24.135:9092");
+    props.put("group.id", "test");
+    props.put("enable.auto.commit", "true");
+    props.put("auto.commit.interval.ms", "1000");
+    props.put("session.timeout.ms", "30000");
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
+    props.put(ConsumerConfig.CLIENT_ID_CONFIG, "your_client_id");
+    props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+    props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
     KStreamBuilder builder = new KStreamBuilder();
 
