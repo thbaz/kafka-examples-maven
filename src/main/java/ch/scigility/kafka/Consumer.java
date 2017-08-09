@@ -19,6 +19,7 @@ public class Consumer {
         // set up house-keeping
         Properties props = new Properties();
         props.put("bootstrap.servers", "172.31.24.135:9092");
+        props.put("group.id", "test");
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");
