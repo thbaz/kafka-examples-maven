@@ -139,12 +139,13 @@ public class Consumer {
          ConsumerRecords<String, String> records = consumer.poll(100);
 
          for (ConsumerRecord<String, String> record : records){
-
+           System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
            //Partners partners = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Partners.class);
            //Partners partners = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Partners.class);
 
            Landing landing = new ObjectMapper().readValue(record.value(), Landing.class);
            //Container container = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Container.class);
+           System.out.println(landing.toString());
 
            if(landing.getObjectId().equals("CORE_CONTRACTS")){
              System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
@@ -159,8 +160,8 @@ public class Consumer {
                   if(changedFieldsList.get(i).getFieldId().equals("COCO_ID"))
                     producer.send(new ProducerRecord<String, String>("co_full_out", "INCO_ID",changedFieldsList.get(i).getFieldValue()));
               }
-           }
+            }
+          }
         }
     }
-}
 }
