@@ -1,5 +1,6 @@
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import ch.scigility.kafka.StreamProcessor;
 import ch.scigility.kafka.StreamProducer;
 import ch.scigility.kafka.Consumer;
 import java.io.IOException;
@@ -12,7 +13,7 @@ public class StreamProducerTest {
               public void run() {
                   System.out.println("Running");
                   try {
-                    Consumer.main();
+                    StreamProcessor.main();
                   } catch (IOException e) {
                       // Do something here
                   }
