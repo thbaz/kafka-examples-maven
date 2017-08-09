@@ -6,9 +6,7 @@ import java.io.IOException;
 
 public class StreamProducerTest {
     @Test
-    public void evaluateOther() {
-
-
+    public void ConsumerTopic() {
           Thread thread = new Thread(new Runnable() {
               @Override
               public void run() {

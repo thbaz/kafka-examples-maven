@@ -34,9 +34,8 @@ public class Consumer {
             // read records with a short timeout. If we time out, we don't really care.
             System.out.println("read records with a short timeout");
             ConsumerRecords<String, String> records = consumer.poll(100);
-
             for (ConsumerRecord<String, String> record : records) {
-              System.out.println(record.key() + " - " + record.value());
+              System.out.println("topic = "+record.topic()+", partition = "+record.partition()+", offset = "+record.offset()+", key = "+record.key()+", country = "+record.value()+"\n");
             }
         }
     }
