@@ -26,22 +26,10 @@ public class StreamProcessor {
 
     Properties props = new Properties();
     // assign localhost id
-    props.put("application.id", "ch.scigility.kafka.stream");
-    props.put("bootstrap.servers", "172.31.24.135:9092");
-    props.put("acks", "all");
-    props.put("retries", 5);
-    props.put("batch.size", 16384);
-    props.put("linger.ms", 100);
-    props.put("buffer.memory", 33554432);
-    props.put("zookeeper.connect", "127.0.0.1:2181");
-    props.put("bootstrap.servers", "172.31.24.135:9092");
-    props.put("group.id", "test");
-    props.put("enable.auto.commit", "true");
-    props.put("auto.commit.interval.ms", "1000");
-    props.put("session.timeout.ms", "30000");
-    props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
-    props.put(ConsumerConfig.CLIENT_ID_CONFIG, "your_client_id");
-    props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    props.put(StreamsConfig.APPLICATION_ID_CONFIG, "ch.scigility.kafka.stream");
+    props.put(StreamsConfig.ZOOKEEPER_CONNECT_CONFIG, "127.0.0.1:2181");
+    props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "172.31.24.135:9092");
+    props.put(StreamsConfig.CLIENT_ID_CONFIG, "generali");
     props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
     props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
@@ -56,10 +44,6 @@ public class StreamProcessor {
     System.out.println("fullStream");
     KStream<String, String> fullStream = builder.stream("co_full_out");
     fullStream.print();
-
-    System.out.println("cdcStream");
-    KStream<String, String> cdcStream = builder.stream("co_cdc_out");
-    cdcStream.print();
 
     //KTable<String, Long> wordCounts = textLines.countByKey("fieldId");
     //wordCounts.to("another_topic");

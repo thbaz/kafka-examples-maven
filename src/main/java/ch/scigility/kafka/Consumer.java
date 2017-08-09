@@ -1,5 +1,6 @@
 package ch.scigility.kafka;
 
+import java.net.URLEncoder;
 import java.util.UUID;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,15 +36,41 @@ public class Consumer {
         // and the consumer
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 
+        consumer.subscribe(Arrays.asList("co_cdc_1"));
 
-        consumer.subscribe(Arrays.asList("co_full_1"));
+        //offset = 0, key = null, value = DBS-H_TESToffset = 1, key = null, value = {
+        // "commandScn": "1195604",
+        // "commandCommitScn": "1195604",
+        // "commandSequence": "0",
+        // "commandType": "INSERT",
+        // "commandTimestamp": "2017-08-08 09:36:43+00:000",
+        // "objectDBName": "DB1",
+        // "objectSchemaName": "POC1",
+        // "objectId": "CORE_CONTRACTS",
+        // "changedFieldsList": [
+        //    {
+        //        "fieldId": "COCO_ID",
+        //        "fieldType": "NUMBER",
+        //        "fieldValue": "1",
+        //        "fieldChanged": "Y"
+        //    },
+        //    {
+        //        "fieldId": "COCO_TYPE",
+        //        "fieldType": "NUMBER",
+        //        "fieldValue": "2",
+        //        "fieldChanged": "Y"
+        //    },
+        //  ]
+        // }
+
 
         while (true) {
          ConsumerRecords<String, String> records = consumer.poll(100);
-         for (ConsumerRecord<String, String> record : records)
-             System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
-           }
+         for (ConsumerRecord<String, String> record : records){
+           System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+           //Container container = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Container.class);
+         }
+
+        }
     }
-
-
 }
