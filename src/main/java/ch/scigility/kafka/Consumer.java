@@ -61,7 +61,7 @@ import java.nio.file.Paths;
 
 public class Consumer {
 
-	public static void main() throws IOException {
+	public static void main(String[] args) throws IOException {
 
 		//String schema = String(Files.readAllBytes(Paths.get("resources/contract_schema.avsc"),StandardCharsets.UTF_8));
 		Schema schema = new Schema.Parser().parse(new File("resources/ContractSchema.avsc"));

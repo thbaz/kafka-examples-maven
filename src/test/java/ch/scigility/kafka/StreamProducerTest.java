@@ -15,7 +15,7 @@ public class StreamProducerTest {
           public void run() {
 
               try {
-                Consumer.main();
+                Consumer.main(null);
               } catch (IOException e) {
                   // TODO something here
               }
