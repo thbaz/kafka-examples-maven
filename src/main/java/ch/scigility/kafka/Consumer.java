@@ -142,6 +142,7 @@ public class Consumer {
            System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
            //Partners partners = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Partners.class);
            //Partners partners = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Partners.class);
+           try {
 
            Landing landing = new ObjectMapper().readValue(record.value(), Landing.class);
            //Container container = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Container.class);
@@ -161,6 +162,12 @@ public class Consumer {
                     producer.send(new ProducerRecord<String, String>("co_full_out", "INCO_ID",changedFieldsList.get(i).getFieldValue()));
               }
             }
+          } 
+       catch (IOException ex) {
+         System.out.printf("IOException");
+       }
+
+
           }
         }
     }
