@@ -51,5 +51,4 @@ public class StreamProcessor {
     KafkaStreams streams = new KafkaStreams(builder, props);
     streams.start();
   }
-
 }

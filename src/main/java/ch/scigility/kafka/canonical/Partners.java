@@ -40,42 +40,40 @@ public class Partners {
 
 		    //SERDE Landing
 				System.out.println("SERDE Landing");
-	        Map<String, Object> landingProps = new HashMap<>();
+				Map<String, Object> landingProps = new HashMap<>();
 
-	        final Serializer<Landing> landingSerializer = new JsonSerializer<>();
-	        landingProps.put("JsonPOJOClass", Landing.class);
-	        landingSerializer.configure(landingProps, false);
+				final Serializer<Landing> landingSerializer = new JsonSerializer<>();
+				landingProps.put("JsonPOJOClass", Landing.class);
+				landingSerializer.configure(landingProps, false);
 
-	        final Deserializer<Landing> landingDeserializer = new JsonDeserializer<>();
-	        landingProps.put("JsonPOJOClass", Landing.class);
-	        landingDeserializer.configure(landingProps, false);
+				final Deserializer<Landing> landingDeserializer = new JsonDeserializer<>();
+				landingProps.put("JsonPOJOClass", Landing.class);
+				landingDeserializer.configure(landingProps, false);
 
-	        final Serde<Landing> LandingSerde = Serdes.serdeFrom(landingSerializer, landingDeserializer);
+				final Serde<Landing> LandingSerde = Serdes.serdeFrom(landingSerializer, landingDeserializer);
 
-	        //SERDE Partner
-					System.out.println("SERDE Partner");
-	        Map<String, Object> partnerProps = new HashMap<>();
+				//SERDE Partner
+				System.out.println("SERDE Partner");
+				Map<String, Object> partnerProps = new HashMap<>();
 
-	        final Serializer<Landing> partnerSerializer = new JsonSerializer<>();
-	        partnerProps.put("JsonPOJOClass", Partners.class);
-	        partnerSerializer.configure(partnerProps, false);
+				final Serializer<Landing> partnerSerializer = new JsonSerializer<>();
+				partnerProps.put("JsonPOJOClass", Partners.class);
+				partnerSerializer.configure(partnerProps, false);
 
-	        final Deserializer<Landing> partnerDeserializer = new JsonDeserializer<>();
-	        partnerProps.put("JsonPOJOClass", Partners.class);
-	        partnerDeserializer.configure(partnerProps, false);
+				final Deserializer<Landing> partnerDeserializer = new JsonDeserializer<>();
+				partnerProps.put("JsonPOJOClass", Partners.class);
+				partnerDeserializer.configure(partnerProps, false);
 
-	        final Serde<Landing> PartnerSerde = Serdes.serdeFrom(partnerSerializer, partnerDeserializer);
+				final Serde<Landing> PartnerSerde = Serdes.serdeFrom(partnerSerializer, partnerDeserializer);
 
-					System.out.println("Builder");
+				System.out.println("Builder");
 		    final KStreamBuilder builder = new KStreamBuilder();
 		    builder.stream(Serdes.String(), LandingSerde, landingTopic)
 		    		.filter((key, raw) -> isPartners(raw))
-						System.out.println(key);
-						System.out.println(raw);
+
 		    		// map to PArtner .map((key, partner) -> new KeyValue<>());
 		    		// .to new topic
-		    ;
-
+				;
 
 				System.out.println("KafkaStreams");
 		    final KafkaStreams streams = new KafkaStreams(builder, streamsConfiguration);
