@@ -69,7 +69,7 @@ public class Consumer {
         // and the consumer
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 
-        consumer.subscribe(Arrays.asList("co_cdc_1"));
+        consumer.subscribe(Arrays.asList("co_full_1"));
 
         String value = "{ \n"+
         "\"commandScn\": \"1195604\",\n"+
