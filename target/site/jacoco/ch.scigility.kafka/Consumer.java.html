@@ -103,7 +103,7 @@ import java.nio.file.Paths;
 <span class="nc" id="L103">			ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);</span>
 
 <span class="nc bnc" id="L105" title="All 2 branches missed.">			for (ConsumerRecord&lt;String, String&gt; record : records){</span>
-<span class="nc" id="L106">				System.out.println(&quot;record:&quot;);</span>
+<span class="nc" id="L106">				System.out.println(&quot;RECORD BEGIN:&quot;);</span>
 <span class="nc" id="L107">				System.out.printf(record.value());</span>
 				try {
 <span class="nc" id="L109">					System.out.println(&quot;Deserialize:&quot;);</span>
@@ -125,16 +125,18 @@ import java.nio.file.Paths;
 <span class="nc" id="L125">							System.out.println(&quot;Sent&quot;);</span>
 <span class="nc" id="L126">						} catch(SerializationException e) {</span>
 <span class="nc" id="L127">						  System.out.println(&quot;SerializationException&quot;);</span>
-<span class="nc" id="L128">						}</span>
+<span class="nc" id="L128">							e.printStackTrace();</span>
+<span class="nc" id="L129">						}</span>
 					}
-<span class="nc" id="L130">					System.out.println(&quot;RECORD PROCESSED...&quot;);</span>
+<span class="nc" id="L131">					System.out.println(&quot;RECORD END...&quot;);</span>
 				}
-<span class="nc" id="L132">				catch (IOException ex) {</span>
-<span class="nc" id="L133">					System.out.printf(&quot;IOException&quot;);</span>
-<span class="nc" id="L134">				}</span>
-<span class="nc" id="L135">				System.out.println(&quot;...&quot;);</span>
-<span class="nc" id="L136">			}</span>
-<span class="nc" id="L137">		}</span>
+<span class="nc" id="L133">				catch (IOException e) {</span>
+<span class="nc" id="L134">					System.out.printf(&quot;IOException&quot;);</span>
+<span class="nc" id="L135">					e.printStackTrace();</span>
+<span class="nc" id="L136">				}</span>
+<span class="nc" id="L137">				System.out.println(&quot;...&quot;);</span>
+<span class="nc" id="L138">			}</span>
+<span class="nc" id="L139">		}</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
