@@ -98,7 +98,7 @@ import java.nio.file.Paths;
 			io.confluent.kafka.serializers.KafkaAvroSerializer.class);
 <span class="fc" id="L99">		propsAvro.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,</span>
 			io.confluent.kafka.serializers.KafkaAvroSerializer.class);
-<span class="fc" id="L101">		propsAvro.put(&quot;schema.registry.url&quot;, &quot;127.0.0.1:8081&quot;);</span>
+<span class="fc" id="L101">		propsAvro.put(&quot;schema.registry.url&quot;, &quot;http://172.31.24.135:8081&quot;);</span>
 <span class="fc" id="L102">		KafkaProducer producer = new KafkaProducer(propsAvro);</span>
 <span class="fc" id="L103">		System.out.println(&quot;KafkaProducer Configured&quot;);</span>
 

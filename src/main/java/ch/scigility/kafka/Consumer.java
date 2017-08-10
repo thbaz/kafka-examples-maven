@@ -98,7 +98,7 @@ public class Consumer {
 			io.confluent.kafka.serializers.KafkaAvroSerializer.class);
 		propsAvro.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
 			io.confluent.kafka.serializers.KafkaAvroSerializer.class);
-		propsAvro.put("schema.registry.url", "127.0.0.1:8081");
+		propsAvro.put("schema.registry.url", "http://172.31.24.135:8081");
 		KafkaProducer producer = new KafkaProducer(propsAvro);
 		System.out.println("KafkaProducer Configured");
 
