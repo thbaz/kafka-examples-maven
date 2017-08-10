@@ -26,10 +26,10 @@ ch/scigility/kafka/canonical/avro/PartnersSchema$Builder.class
 ch/scigility/kafka/canonical/avro/CustomersSchema.class
 ch/scigility/kafka/canonical/avro/LegalEntitiesSchema$1.class
 ch/scigility/kafka/canonical/avro/ContractsSchema.class
-ch/scigility/kafka/Consumer.class
 ch/scigility/kafka/canonical/avro/LegalEntitiesSchema$Builder.class
 ch/scigility/kafka/canonical/avro/AgentsSchema$1.class
 ch/scigility/kafka/canonical/avro/AddressesSchema$1.class
+ch/scigility/kafka/ConsumerDelta.class
 ch/scigility/kafka/canonical/ContractSchema$1.class
 ch/scigility/kafka/canonical/avro/CoreContractsSchema$Builder.class
 ch/scigility/kafka/canonical/avro/NaturalPersonsSchema$Builder.class
@@ -39,3 +39,4 @@ ch/scigility/kafka/canonical/ContractsSchema$1.class
 ch/scigility/kafka/canonical/avro/AgentsSchema.class
 ch/scigility/kafka/canonical/avro/ContractsSchema$1.class
 ch/scigility/kafka/canonical/JsonSerializer.class
+ch/scigility/kafka/ConsumerBatch.class

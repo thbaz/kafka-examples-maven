@@ -1,4 +1,5 @@
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/canonical/ContractSchema.java
+/Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/ConsumerBatch.java
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/canonical/avro/CoreContractsSchema.java
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/canonical/avro/CommunicationsWaysSchema.java
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/canonical/avro/NaturalPersonsSchema.java
@@ -16,4 +17,4 @@
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/canonical/avro/ContractsSchema.java
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/canonical/ContractsSchema.java
 /Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/StreamProducer.java
-/Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/Consumer.java
+/Users/thbas/prod/poc/scigility-kafka-stream/src/main/java/ch/scigility/kafka/ConsumerDelta.java

@@ -247,7 +247,7 @@ public class Landing implements Serializable
             }
             break;
           case "COCO_COCU_ID":
-            contractsAvro.put(6,new Long(change.getFieldValue()).longValue());
+            //contractsAvro.put(6,new Long(change.getFieldValue()).longValue());
             break;
           case "COCO_COAG_ID":
             contractsAvro.put(7,new Long(change.getFieldValue()).longValue());

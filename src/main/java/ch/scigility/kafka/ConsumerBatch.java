@@ -59,12 +59,12 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
-public class Consumer {
+public class ConsumerBatch {
 
 	public static void main(String[] args) throws IOException {
 
 		//String schema = String(Files.readAllBytes(Paths.get("resources/contract_schema.avsc"),StandardCharsets.UTF_8));
-		System.out.println("Consumer procedure");
+		System.out.println("Consumer batch:BEGIN");
 		//Schema schema = new Schema.Parser().parse(new File("resources/ContractSchema.avsc"));
 
 		// set up house-keeping
@@ -87,7 +87,7 @@ public class Consumer {
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-		consumer.subscribe(Arrays.asList("co_full_1"));
+		consumer.subscribe(Arrays.asList(args[0]));
 		System.out.println("KafkaConsumer Configured");
 
 		Schema schema = ContractsSchema.SCHEMA$;
@@ -141,5 +141,6 @@ public class Consumer {
 				System.out.println("...");
 			}
 		}
+		//System.out.println("Consumer batch:END");
 	}
 }

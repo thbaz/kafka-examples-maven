@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 import ch.scigility.kafka.StreamProcessor;
 import ch.scigility.kafka.StreamProducer;
-import ch.scigility.kafka.Consumer;
+import ch.scigility.kafka.ConsumerDelta;
 import ch.scigility.kafka.canonical.Partners;
 import ch.scigility.kafka.canonical.avro.ContractsSchema;
 import ch.scigility.kafka.canonical.Landing;
@@ -81,6 +81,20 @@ public class StreamProducerTest {
       oraDataSource.setURL(ConnectionURl);
 
       Connection oraConnection = oraDataSource.getConnection();
+
+      // DatabaseMetaData dbmd = connection.getMetaData();
+      // System.out.println("Driver Name: " + dbmd.getDriverName());
+      // System.out.println("Driver Version: " + dbmd.getDriverVersion());
+      // // Print some connection properties
+      // System.out.println("Default Row Prefetch Value is: " +
+      //    connection.getDefaultRowPrefetch());
+      // System.out.println("Database Username is: " + connection.getUserName());
+      // System.out.println();
+      // Statement and ResultSet are AutoCloseable and closed automatically.
+      // Statement statement = connection.createStatement();
+      // ResultSet resultSet = statement.executeQuery("select first_name, last_name from employees");
+      // while (resultSet.next())
+      //     System.out.println(resultSet.getString(1) + " "+ resultSet.getString(2) + " ");
     } catch (Exception e){
       System.out.println("SQLException error");
       e.printStackTrace();
@@ -101,9 +115,9 @@ public class StreamProducerTest {
     Thread thread = new Thread(new Runnable() {
       @Override
       public void run() {
-
         try {
-          Consumer.main(null);
+          String[] args = {"co_full_1", "co_full_contracts"};
+          ConsumerDelta.main(args);
         } catch (IOException e) {
           // TODO something here
         }
