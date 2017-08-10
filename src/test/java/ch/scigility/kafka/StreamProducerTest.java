@@ -22,7 +22,8 @@ import ch.scigility.kafka.canonical.ChangedFieldsList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
-
+import oracle.jdbc.pool.OracleDataSource;
+import java.sql.Connection;
 public class StreamProducerTest {
   String contractJSON = "{\n  \"commandScn\": \"1195604\",\n  "+
   "\"commandCommitScn\": \"1195604\",\n  \"commandSequence\": \"0\",\n  "+
@@ -59,6 +60,40 @@ public class StreamProducerTest {
   "  {\n      \"fieldId\": \"COCO_TOTAL_PAID_CLAIMS\",\n   "+
   "   \"fieldType\": \"NUMBER\",\n      \"fieldValue\": \"6456\",\n  "+
   "    \"fieldChanged\": \"Y\"\n    }\n  ],\n  \"conditionFieldsList\": []\n}";
+
+
+  @Test
+  public void OracleConnection() {
+    System.out.println("OracleConnection:BEGIN");
+    String oraUser="inn_poc1";
+    String oraPwd="inn_poc1";
+    String oraHostname="pocathon-ora2";
+    String oraPort="1522";
+    String oraDbname="DB2";
+    String ConnectionURl= "jdbc:oracle:thin:@//" +
+      oraHostname + ":" +
+      oraPort + "/" +
+      oraDbname;
+    try {
+      OracleDataSource oraDataSource=new OracleDataSource();
+      oraDataSource.setUser(oraUser);
+      oraDataSource.setPassword(oraPwd);
+      oraDataSource.setURL(ConnectionURl);
+
+      Connection oraConnection = oraDataSource.getConnection();
+    } catch (Exception e){
+      Assert.fail("SQLException error");
+      e.printStackTrace();
+    }
+    System.out.println("OracleConnection:END");
+  }
+
+  @Test
+  public void OracleInsert() {
+    System.out.println("OracleInsert:BEGIN");
+
+    System.out.println("OracleInsert:END");
+  }
 
   @Test
   public void ConsumerTopicTest() {

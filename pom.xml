@@ -21,27 +21,37 @@
   </organization>
 
   <repositories>
-          <repository>
-              <id>confluent</id>
-              <name>Confluent</name>
-              <url>${confluent.maven.repo}</url>
-      </repository>
+    <repository>
+      <id>confluent</id>
+      <name>Confluent</name>
+      <url>http://packages.confluent.io/maven/</url>
+    </repository>
+    <repository>
+      <id>maven</id>
+      <name>maven</name>
+      <url>http://repo1.maven.org/maven2/</url>
+    </repository>
   </repositories>
 
 
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
+    <apache.directory.server.version>2.0.0-M22</apache.directory.server.version>
+    <apache.directory.api.version>1.0.0-M33</apache.directory.api.version>
+    <avro.version>1.8.2</avro.version>
+    <confluent.maven.repo></confluent.maven.repo>
 
-        <apache.directory.server.version>2.0.0-M22</apache.directory.server.version>
-        <apache.directory.api.version>1.0.0-M33</apache.directory.api.version>
-        <avro.version>1.8.2</avro.version>
-        <confluent.maven.repo>http://packages.confluent.io/maven/</confluent.maven.repo>
-        <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
-        <podam.version>6.0.2.RELEASE</podam.version>
+    <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
+    <podam.version>6.0.2.RELEASE</podam.version>
   </properties>
 
   <dependencies>
+    <dependency>
+    <groupId>com.jslsolucoes</groupId>
+    <artifactId>ojdbc6</artifactId>
+    <version>11.2.0.1.0</version>
+</dependency>
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
@@ -120,10 +130,10 @@
       <version>19.0</version>
     </dependency>
     <dependency>
-    <groupId>io.confluent</groupId>
-    <artifactId>kafka-avro-serializer</artifactId>
-    <version>3.3.0</version>
-</dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>3.3.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -138,30 +148,30 @@
     </resources>
     <plugins>
       <plugin>
-  <groupId>org.apache.avro</groupId>
-  <artifactId>avro-maven-plugin</artifactId>
-  <version>1.8.2</version>
-  <executions>
-    <execution>
-      <phase>generate-sources</phase>
-      <goals>
-        <goal>schema</goal>
-      </goals>
-      <configuration>
-        <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
-        <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
-      </configuration>
-    </execution>
-  </executions>
-</plugin>
-<plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-compiler-plugin</artifactId>
-  <configuration>
-    <source>1.8</source>
-    <target>1.8</target>
-  </configuration>
-</plugin>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro-maven-plugin</artifactId>
+        <version>1.8.2</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>schema</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
+              <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.2</version>
