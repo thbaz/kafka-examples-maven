@@ -66,7 +66,7 @@ public class Consumer {
 		//String schema = String(Files.readAllBytes(Paths.get("resources/contract_schema.avsc"),StandardCharsets.UTF_8));
 		System.out.println("Consumer procedure");
 		//Schema schema = new Schema.Parser().parse(new File("resources/ContractSchema.avsc"));
-		Schema schema = ContractsSchema.SCHEMA$;
+
 		// set up house-keeping
 		Properties props = new Properties();
 		props.put("zookeeper.connect", "127.0.0.1:2181");
@@ -78,26 +78,30 @@ public class Consumer {
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
 		props.put(ConsumerConfig.CLIENT_ID_CONFIG, "your_client_id");
 		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-
-		Properties propsAvro = new Properties();
-		// hardcoding the Kafka server URI for this example
-		props.put("bootstrap.servers", "172.31.24.135:9092");
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("key.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
 		props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
-		props.put("schema.registry.url", schema);
 		props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
-
-		// and the consumer
 		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 		consumer.subscribe(Arrays.asList("co_full_1"));
-		System.out.println("KafkaProducer");
-		KafkaProducer producer = new KafkaProducer(props);
-		System.out.println("ConsumerRecords");
+		System.out.println("KafkaConsumer Configured");
+
+		Schema schema = ContractsSchema.SCHEMA$;
+		Properties propsAvro = new Properties();
+		propsAvro.put("zookeeper.connect", "127.0.0.1:2181");
+		propsAvro.put("bootstrap.servers", "172.31.24.135:9092");
+		propsAvro.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+			io.confluent.kafka.serializers.KafkaAvroSerializer.class);
+		propsAvro.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+			io.confluent.kafka.serializers.KafkaAvroSerializer.class);
+		propsAvro.put("schema.registry.url", "127.0.0.1:8081");
+		KafkaProducer producer = new KafkaProducer(propsAvro);
+		System.out.println("KafkaProducer Configured");
+
 		while (true) {
 
 			ConsumerRecords<String, String> records = consumer.poll(100);
