@@ -119,7 +119,7 @@ public class Consumer {
 						ContractsSchema avroRecord = landing.toAvroCanonical();
 						System.out.println(avroRecord.toString());
 
-						ProducerRecord<Object, Object> prodAvroRecord = new ProducerRecord<>(
+						ProducerRecord prodAvroRecord = new ProducerRecord(
 							"co_full_contracts", "avrokey", avroRecord
 						);
 

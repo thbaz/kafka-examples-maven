@@ -119,7 +119,7 @@ import java.nio.file.Paths;
 <span class="nc" id="L119">						ContractsSchema avroRecord = landing.toAvroCanonical();</span>
 <span class="nc" id="L120">						System.out.println(avroRecord.toString());</span>
 
-<span class="nc" id="L122">						ProducerRecord&lt;Object, Object&gt; prodAvroRecord = new ProducerRecord&lt;&gt;(</span>
+<span class="nc" id="L122">						ProducerRecord prodAvroRecord = new ProducerRecord(</span>
 							&quot;co_full_contracts&quot;, &quot;avrokey&quot;, avroRecord
 						);
 
