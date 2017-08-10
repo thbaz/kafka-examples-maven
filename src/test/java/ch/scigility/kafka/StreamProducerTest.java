@@ -116,7 +116,7 @@ public class StreamProducerTest {
       @Override
       public void run() {
         try {
-          String[] args = {"co_full_1", "co_full_contracts"};
+          String[] args = {"co_cdc_1", "co_full_contracts"};
           ConsumerDelta.main(args);
         } catch (IOException e) {
           // TODO something here
@@ -124,7 +124,7 @@ public class StreamProducerTest {
       }
     });
     thread.start();
-    int runFor = 10*1000;
+    int runFor = 5*60*1000;
     int sleepFor = 1000;
     long endTimeMillis = System.currentTimeMillis() + runFor;
     while (thread.isAlive()) {

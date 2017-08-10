@@ -77,7 +77,7 @@ public class ConsumerDelta {
 		props.put("session.timeout.ms", "30000");
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
 		props.put(ConsumerConfig.CLIENT_ID_CONFIG, "your_client_id");
-		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+		//props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("key.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
