@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StreamProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">scigility-kafka-streaming</a> &gt; <a href="index.source.html" class="el_package">ch.scigility.kafka</a> &gt; <span class="el_source">StreamProcessor.java</span></div><h1>StreamProcessor.java</h1><pre class="source lang-java linenums">package ch.scigility.kafka;
+
+import java.util.UUID;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Random;
+
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.Serde;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KStreamBuilder;
+import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import java.io.IOException;
+
+import java.util.Arrays;
+import java.util.Properties;
+
+<span class="nc" id="L23">public class StreamProcessor {</span>
+
+  public static void main() throws IOException {
+
+<span class="nc" id="L27">    Properties props = new Properties();</span>
+    // assign localhost id
+<span class="nc" id="L29">    props.put(StreamsConfig.APPLICATION_ID_CONFIG, &quot;ch.scigility.kafka.stream&quot;);</span>
+<span class="nc" id="L30">    props.put(StreamsConfig.ZOOKEEPER_CONNECT_CONFIG, &quot;127.0.0.1:2181&quot;);</span>
+<span class="nc" id="L31">    props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;172.31.24.135:9092&quot;);</span>
+<span class="nc" id="L32">    props.put(StreamsConfig.CLIENT_ID_CONFIG, &quot;generali&quot;);</span>
+<span class="nc" id="L33">    props.put(&quot;key.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span>
+<span class="nc" id="L34">    props.put(&quot;value.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span>
+
+<span class="nc" id="L36">    KStreamBuilder builder = new KStreamBuilder();</span>
+
+<span class="nc" id="L38">    final Serde&lt;String&gt; stringSerde = Serdes.String();</span>
+<span class="nc" id="L39">    final Serde&lt;byte[]&gt; byteArraySerde = Serdes.ByteArray();</span>
+<span class="nc" id="L40">    final KStream&lt;byte[], String&gt; textLines = builder.stream(byteArraySerde, stringSerde, &quot;co_full_1&quot;);</span>
+<span class="nc" id="L41">    final KStream&lt;byte[], String&gt; uppercasedWithMapValues = textLines.mapValues(String::toUpperCase);</span>
+<span class="nc" id="L42">    uppercasedWithMapValues.to(&quot;UppercasedTextLinesTopic&quot;);</span>
+
+<span class="nc" id="L44">    System.out.println(&quot;fullStream&quot;);</span>
+<span class="nc" id="L45">    KStream&lt;String, String&gt; fullStream = builder.stream(&quot;co_full_out&quot;);</span>
+<span class="nc" id="L46">    fullStream.print();</span>
+
+    //KTable&lt;String, Long&gt; wordCounts = textLines.countByKey(&quot;fieldId&quot;);
+    //wordCounts.to(&quot;another_topic&quot;);
+<span class="nc" id="L50">    System.out.println(&quot;KafkaStreams&quot;);</span>
+<span class="nc" id="L51">    KafkaStreams streams = new KafkaStreams(builder, props);</span>
+<span class="nc" id="L52">    streams.start();</span>
+<span class="nc" id="L53">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

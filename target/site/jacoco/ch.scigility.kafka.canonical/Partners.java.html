@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Partners.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">scigility-kafka-streaming</a> &gt; <a href="index.source.html" class="el_package">ch.scigility.kafka.canonical</a> &gt; <span class="el_source">Partners.java</span></div><h1>Partners.java</h1><pre class="source lang-java linenums">package ch.scigility.kafka.canonical;
+
+import java.io.IOException;
+
+import org.apache.kafka.common.metrics.Sensor;
+import org.apache.kafka.common.serialization.Deserializer;
+import org.apache.kafka.common.serialization.Serde;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.Serializer;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.KStreamBuilder;
+
+import ch.scigility.kafka.canonical.JsonDeserializer;
+import ch.scigility.kafka.canonical.JsonSerializer;
+import ch.scigility.kafka.canonical.Landing;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+<span class="nc" id="L22">public class Partners {</span>
+	private static boolean isPartners(Landing raw) {
+<span class="nc bnc" id="L24" title="All 4 branches missed.">		if (raw.getObjectId().equals(&quot;CORE_CONTRACTS&quot;) || raw.getObjectId().equals(&quot;CORE_AGENTS&quot;)) {</span>
+<span class="nc" id="L25">			return true;</span>
+		}
+<span class="nc" id="L27">		return false;</span>
+	}
+
+	 public static void main() throws IOException {
+<span class="nc" id="L31">		   String landingTopic = &quot;&quot;;</span>
+<span class="nc" id="L32">		    final Properties streamsConfiguration = new Properties();</span>
+<span class="nc" id="L33">		    streamsConfiguration.put(StreamsConfig.APPLICATION_ID_CONFIG, &quot;canonical-partners&quot;);</span>
+<span class="nc" id="L34">		    streamsConfiguration.put(StreamsConfig.CLIENT_ID_CONFIG, &quot;canonical-partners-client&quot;);</span>
+<span class="nc" id="L35">		    streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;172.31.24.135:9092&quot;);</span>
+<span class="nc" id="L36">		    streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());</span>
+<span class="nc" id="L37">		    streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());</span>
+<span class="nc" id="L38">		    streamsConfiguration.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000);</span>
+<span class="nc" id="L39">		    streamsConfiguration.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);</span>
+
+		    //SERDE Landing
+<span class="nc" id="L42">				System.out.println(&quot;SERDE Landing&quot;);</span>
+<span class="nc" id="L43">				Map&lt;String, Object&gt; landingProps = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L45">				final Serializer&lt;Landing&gt; landingSerializer = new JsonSerializer&lt;&gt;();</span>
+<span class="nc" id="L46">				landingProps.put(&quot;JsonPOJOClass&quot;, Landing.class);</span>
+<span class="nc" id="L47">				landingSerializer.configure(landingProps, false);</span>
+
+<span class="nc" id="L49">				final Deserializer&lt;Landing&gt; landingDeserializer = new JsonDeserializer&lt;&gt;();</span>
+<span class="nc" id="L50">				landingProps.put(&quot;JsonPOJOClass&quot;, Landing.class);</span>
+<span class="nc" id="L51">				landingDeserializer.configure(landingProps, false);</span>
+
+<span class="nc" id="L53">				final Serde&lt;Landing&gt; LandingSerde = Serdes.serdeFrom(landingSerializer, landingDeserializer);</span>
+
+				//SERDE Partner
+<span class="nc" id="L56">				System.out.println(&quot;SERDE Partner&quot;);</span>
+<span class="nc" id="L57">				Map&lt;String, Object&gt; partnerProps = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L59">				final Serializer&lt;Landing&gt; partnerSerializer = new JsonSerializer&lt;&gt;();</span>
+<span class="nc" id="L60">				partnerProps.put(&quot;JsonPOJOClass&quot;, Partners.class);</span>
+<span class="nc" id="L61">				partnerSerializer.configure(partnerProps, false);</span>
+
+<span class="nc" id="L63">				final Deserializer&lt;Landing&gt; partnerDeserializer = new JsonDeserializer&lt;&gt;();</span>
+<span class="nc" id="L64">				partnerProps.put(&quot;JsonPOJOClass&quot;, Partners.class);</span>
+<span class="nc" id="L65">				partnerDeserializer.configure(partnerProps, false);</span>
+
+<span class="nc" id="L67">				final Serde&lt;Landing&gt; PartnerSerde = Serdes.serdeFrom(partnerSerializer, partnerDeserializer);</span>
+
+<span class="nc" id="L69">				System.out.println(&quot;Builder&quot;);</span>
+<span class="nc" id="L70">		    final KStreamBuilder builder = new KStreamBuilder();</span>
+<span class="nc" id="L71">		    builder.stream(Serdes.String(), LandingSerde, landingTopic)</span>
+<span class="nc" id="L72">		    		.filter((key, raw) -&gt; isPartners(raw))</span>
+
+		    		// map to PArtner .map((key, partner) -&gt; new KeyValue&lt;&gt;());
+		    		// .to new topic
+				;
+
+<span class="nc" id="L78">				System.out.println(&quot;KafkaStreams&quot;);</span>
+<span class="nc" id="L79">		    final KafkaStreams streams = new KafkaStreams(builder, streamsConfiguration);</span>
+<span class="nc" id="L80">		    streams.cleanUp();</span>
+<span class="nc" id="L81">		    streams.start();</span>
+
+		    // Add shutdown hook to respond to SIGTERM and gracefully close Kafka Streams
+<span class="nc" id="L84">		    Runtime.getRuntime().addShutdownHook(new Thread(streams::close));</span>
+<span class="nc" id="L85">	 }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

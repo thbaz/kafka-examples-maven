@@ -97,30 +97,32 @@ public class Consumer {
 		consumer.subscribe(Arrays.asList("co_full_1"));
 		System.out.println("KafkaProducer");
 		KafkaProducer producer = new KafkaProducer(props);
-
+		System.out.println("ConsumerRecords");
 		while (true) {
-			System.out.println("ConsumerRecords");
+
 			ConsumerRecords<String, String> records = consumer.poll(100);
 
 			for (ConsumerRecord<String, String> record : records){
-				System.out.println("record");
-				//Partners partners = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Partners.class);
-				//Partners partners = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Partners.class);
+				System.out.println("record:");
+				System.out.printf(record.value());
 				try {
-
+					System.out.println("Deserialize:");
 					Landing landing = new ObjectMapper().readValue(record.value(), Landing.class);
-					//Container container = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Container.class);
+					System.out.println(landing.toString());
 
 					if(landing.getObjectId().equals("CORE_CONTRACTS")){
-						System.out.printf(record.value());
-						System.out.println(landing.toString());
-
+						System.out.println("Threat Contracts:");
 						ContractsSchema avroRecord = landing.toAvroCanonical();
+						System.out.println(avroRecord.toString());
 
-						//for all changedFieldsList
-						ProducerRecord<Object, Object> prodAvroRecord = new ProducerRecord<>("co_full_contracts", "avrokey", avroRecord);
+						ProducerRecord<Object, Object> prodAvroRecord = new ProducerRecord<>(
+							"co_full_contracts", "avrokey", avroRecord
+						);
+
 						try {
+							System.out.println("Sending...");
 						  producer.send(prodAvroRecord);
+							System.out.println("Sent");
 						} catch(SerializationException e) {
 						  System.out.println("SerializationException");
 						}
