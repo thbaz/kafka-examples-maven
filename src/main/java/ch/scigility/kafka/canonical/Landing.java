@@ -1,7 +1,6 @@
 package ch.scigility.kafka.canonical;
 
-import java.io.*;
-import java.util.*;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.io.Serializable;
@@ -17,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import ch.scigility.kafka.canonical.avro.ContractsSchema;
-
+import org.joda.time.DateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "commandScn",
@@ -231,16 +230,18 @@ public class Landing implements Serializable
             try {
                 Date date = f.parse(change.getFieldValue());
                 long milliseconds = date.getTime();
-                contractsAvro.put(4,milliseconds);
+                DateTime oradate = new org.joda.time.DateTime(milliseconds);
+                contractsAvro.put(4,oradate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             break;
           case "COCO_END_DATE":
             try {
-                Date date = f.parse(change.getFieldValue());
-                long milliseconds = date.getTime();
-                contractsAvro.put(5,milliseconds);
+              Date date = f.parse(change.getFieldValue());
+              long milliseconds = date.getTime();
+              DateTime oradate = new org.joda.time.DateTime(milliseconds);
+              contractsAvro.put(5,oradate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

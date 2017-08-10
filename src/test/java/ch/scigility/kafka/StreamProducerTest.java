@@ -67,7 +67,7 @@ public class StreamProducerTest {
     System.out.println("OracleConnection:BEGIN");
     String oraUser="inn_poc1";
     String oraPwd="inn_poc1";
-    String oraHostname="52.29.141.49";
+    String oraHostname="52.59.141.49";
     String oraPort="1522";
     String oraDbname="DB2";
     String ConnectionURl= "jdbc:oracle:thin:@//" +
@@ -102,11 +102,11 @@ public class StreamProducerTest {
       @Override
       public void run() {
 
-        // try {
-        //   Consumer.main(null);
-        // } catch (IOException e) {
-        //   // TODO something here
-        // }
+        try {
+          Consumer.main(null);
+        } catch (IOException e) {
+          // TODO something here
+        }
       }
     });
     thread.start();

@@ -14,7 +14,7 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -1707344960876421271L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ContractsSchema\",\"namespace\":\"ch.scigility.kafka.canonical.avro\",\"fields\":[{\"name\":\"INCO_ID\",\"type\":\"long\"},{\"name\":\"INCO_TYPE\",\"type\":\"long\"},{\"name\":\"INCO_COVERAGE\",\"type\":\"long\"},{\"name\":\"INCO_ANNUAL_PREMIUM\",\"type\":\"long\"},{\"name\":\"INCO_START_DATE\",\"type\":\"long\"},{\"name\":\"INCO_END_DATE\",\"type\":\"long\"},{\"name\":\"INCO_INPA_CUST_ID\",\"type\":\"long\"},{\"name\":\"INCO_INAG_ID\",\"type\":\"long\"},{\"name\":\"INCO_RENTABILITY\",\"type\":\"long\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ContractsSchema\",\"namespace\":\"ch.scigility.kafka.canonical.avro\",\"fields\":[{\"name\":\"INCO_ID\",\"type\":\"long\"},{\"name\":\"INCO_TYPE\",\"type\":\"long\"},{\"name\":\"INCO_COVERAGE\",\"type\":\"long\"},{\"name\":\"INCO_ANNUAL_PREMIUM\",\"type\":\"long\"},{\"name\":\"INCO_START_DATE\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"INCO_END_DATE\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"INCO_INPA_CUST_ID\",\"type\":\"long\"},{\"name\":\"INCO_INAG_ID\",\"type\":\"long\"},{\"name\":\"INCO_RENTABILITY\",\"type\":\"long\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -55,8 +55,8 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
   @Deprecated public long INCO_TYPE;
   @Deprecated public long INCO_COVERAGE;
   @Deprecated public long INCO_ANNUAL_PREMIUM;
-  @Deprecated public long INCO_START_DATE;
-  @Deprecated public long INCO_END_DATE;
+  @Deprecated public org.joda.time.DateTime INCO_START_DATE;
+  @Deprecated public org.joda.time.DateTime INCO_END_DATE;
   @Deprecated public long INCO_INPA_CUST_ID;
   @Deprecated public long INCO_INAG_ID;
   @Deprecated public long INCO_RENTABILITY;
@@ -80,7 +80,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
    * @param INCO_INAG_ID The new value for INCO_INAG_ID
    * @param INCO_RENTABILITY The new value for INCO_RENTABILITY
    */
-  public ContractsSchema(java.lang.Long INCO_ID, java.lang.Long INCO_TYPE, java.lang.Long INCO_COVERAGE, java.lang.Long INCO_ANNUAL_PREMIUM, java.lang.Long INCO_START_DATE, java.lang.Long INCO_END_DATE, java.lang.Long INCO_INPA_CUST_ID, java.lang.Long INCO_INAG_ID, java.lang.Long INCO_RENTABILITY) {
+  public ContractsSchema(java.lang.Long INCO_ID, java.lang.Long INCO_TYPE, java.lang.Long INCO_COVERAGE, java.lang.Long INCO_ANNUAL_PREMIUM, org.joda.time.DateTime INCO_START_DATE, org.joda.time.DateTime INCO_END_DATE, java.lang.Long INCO_INPA_CUST_ID, java.lang.Long INCO_INAG_ID, java.lang.Long INCO_RENTABILITY) {
     this.INCO_ID = INCO_ID;
     this.INCO_TYPE = INCO_TYPE;
     this.INCO_COVERAGE = INCO_COVERAGE;
@@ -109,6 +109,30 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
     }
   }
 
+  protected static final org.apache.avro.data.TimeConversions.DateConversion DATE_CONVERSION = new org.apache.avro.data.TimeConversions.DateConversion();
+  protected static final org.apache.avro.data.TimeConversions.TimeConversion TIME_CONVERSION = new org.apache.avro.data.TimeConversions.TimeConversion();
+  protected static final org.apache.avro.data.TimeConversions.TimestampConversion TIMESTAMP_CONVERSION = new org.apache.avro.data.TimeConversions.TimestampConversion();
+  protected static final org.apache.avro.Conversions.DecimalConversion DECIMAL_CONVERSION = new org.apache.avro.Conversions.DecimalConversion();
+
+  private static final org.apache.avro.Conversion<?>[] conversions =
+      new org.apache.avro.Conversion<?>[] {
+      null,
+      null,
+      null,
+      null,
+      TIMESTAMP_CONVERSION,
+      TIMESTAMP_CONVERSION,
+      null,
+      null,
+      null,
+      null
+  };
+
+  @Override
+  public org.apache.avro.Conversion<?> getConversion(int field) {
+    return conversions[field];
+  }
+
   // Used by DatumReader.  Applications should not call.
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
@@ -117,8 +141,8 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
     case 1: INCO_TYPE = (java.lang.Long)value$; break;
     case 2: INCO_COVERAGE = (java.lang.Long)value$; break;
     case 3: INCO_ANNUAL_PREMIUM = (java.lang.Long)value$; break;
-    case 4: INCO_START_DATE = (java.lang.Long)value$; break;
-    case 5: INCO_END_DATE = (java.lang.Long)value$; break;
+    case 4: INCO_START_DATE = (org.joda.time.DateTime)value$; break;
+    case 5: INCO_END_DATE = (org.joda.time.DateTime)value$; break;
     case 6: INCO_INPA_CUST_ID = (java.lang.Long)value$; break;
     case 7: INCO_INAG_ID = (java.lang.Long)value$; break;
     case 8: INCO_RENTABILITY = (java.lang.Long)value$; break;
@@ -194,7 +218,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
    * Gets the value of the 'INCO_START_DATE' field.
    * @return The value of the 'INCO_START_DATE' field.
    */
-  public java.lang.Long getINCOSTARTDATE() {
+  public org.joda.time.DateTime getINCOSTARTDATE() {
     return INCO_START_DATE;
   }
 
@@ -202,7 +226,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
    * Sets the value of the 'INCO_START_DATE' field.
    * @param value the value to set.
    */
-  public void setINCOSTARTDATE(java.lang.Long value) {
+  public void setINCOSTARTDATE(org.joda.time.DateTime value) {
     this.INCO_START_DATE = value;
   }
 
@@ -210,7 +234,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
    * Gets the value of the 'INCO_END_DATE' field.
    * @return The value of the 'INCO_END_DATE' field.
    */
-  public java.lang.Long getINCOENDDATE() {
+  public org.joda.time.DateTime getINCOENDDATE() {
     return INCO_END_DATE;
   }
 
@@ -218,7 +242,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
    * Sets the value of the 'INCO_END_DATE' field.
    * @param value the value to set.
    */
-  public void setINCOENDDATE(java.lang.Long value) {
+  public void setINCOENDDATE(org.joda.time.DateTime value) {
     this.INCO_END_DATE = value;
   }
 
@@ -306,8 +330,8 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
     private long INCO_TYPE;
     private long INCO_COVERAGE;
     private long INCO_ANNUAL_PREMIUM;
-    private long INCO_START_DATE;
-    private long INCO_END_DATE;
+    private org.joda.time.DateTime INCO_START_DATE;
+    private org.joda.time.DateTime INCO_END_DATE;
     private long INCO_INPA_CUST_ID;
     private long INCO_INAG_ID;
     private long INCO_RENTABILITY;
@@ -561,7 +585,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
       * Gets the value of the 'INCO_START_DATE' field.
       * @return The value.
       */
-    public java.lang.Long getINCOSTARTDATE() {
+    public org.joda.time.DateTime getINCOSTARTDATE() {
       return INCO_START_DATE;
     }
 
@@ -570,7 +594,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'INCO_START_DATE'.
       * @return This builder.
       */
-    public ch.scigility.kafka.canonical.avro.ContractsSchema.Builder setINCOSTARTDATE(long value) {
+    public ch.scigility.kafka.canonical.avro.ContractsSchema.Builder setINCOSTARTDATE(org.joda.time.DateTime value) {
       validate(fields()[4], value);
       this.INCO_START_DATE = value;
       fieldSetFlags()[4] = true;
@@ -599,7 +623,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
       * Gets the value of the 'INCO_END_DATE' field.
       * @return The value.
       */
-    public java.lang.Long getINCOENDDATE() {
+    public org.joda.time.DateTime getINCOENDDATE() {
       return INCO_END_DATE;
     }
 
@@ -608,7 +632,7 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
       * @param value The value of 'INCO_END_DATE'.
       * @return This builder.
       */
-    public ch.scigility.kafka.canonical.avro.ContractsSchema.Builder setINCOENDDATE(long value) {
+    public ch.scigility.kafka.canonical.avro.ContractsSchema.Builder setINCOENDDATE(org.joda.time.DateTime value) {
       validate(fields()[5], value);
       this.INCO_END_DATE = value;
       fieldSetFlags()[5] = true;
@@ -752,15 +776,15 @@ public class ContractsSchema extends org.apache.avro.specific.SpecificRecordBase
     public ContractsSchema build() {
       try {
         ContractsSchema record = new ContractsSchema();
-        record.INCO_ID = fieldSetFlags()[0] ? this.INCO_ID : (java.lang.Long) defaultValue(fields()[0]);
-        record.INCO_TYPE = fieldSetFlags()[1] ? this.INCO_TYPE : (java.lang.Long) defaultValue(fields()[1]);
-        record.INCO_COVERAGE = fieldSetFlags()[2] ? this.INCO_COVERAGE : (java.lang.Long) defaultValue(fields()[2]);
-        record.INCO_ANNUAL_PREMIUM = fieldSetFlags()[3] ? this.INCO_ANNUAL_PREMIUM : (java.lang.Long) defaultValue(fields()[3]);
-        record.INCO_START_DATE = fieldSetFlags()[4] ? this.INCO_START_DATE : (java.lang.Long) defaultValue(fields()[4]);
-        record.INCO_END_DATE = fieldSetFlags()[5] ? this.INCO_END_DATE : (java.lang.Long) defaultValue(fields()[5]);
-        record.INCO_INPA_CUST_ID = fieldSetFlags()[6] ? this.INCO_INPA_CUST_ID : (java.lang.Long) defaultValue(fields()[6]);
-        record.INCO_INAG_ID = fieldSetFlags()[7] ? this.INCO_INAG_ID : (java.lang.Long) defaultValue(fields()[7]);
-        record.INCO_RENTABILITY = fieldSetFlags()[8] ? this.INCO_RENTABILITY : (java.lang.Long) defaultValue(fields()[8]);
+        record.INCO_ID = fieldSetFlags()[0] ? this.INCO_ID : (java.lang.Long) defaultValue(fields()[0], record.getConversion(0));
+        record.INCO_TYPE = fieldSetFlags()[1] ? this.INCO_TYPE : (java.lang.Long) defaultValue(fields()[1], record.getConversion(1));
+        record.INCO_COVERAGE = fieldSetFlags()[2] ? this.INCO_COVERAGE : (java.lang.Long) defaultValue(fields()[2], record.getConversion(2));
+        record.INCO_ANNUAL_PREMIUM = fieldSetFlags()[3] ? this.INCO_ANNUAL_PREMIUM : (java.lang.Long) defaultValue(fields()[3], record.getConversion(3));
+        record.INCO_START_DATE = fieldSetFlags()[4] ? this.INCO_START_DATE : (org.joda.time.DateTime) defaultValue(fields()[4], record.getConversion(4));
+        record.INCO_END_DATE = fieldSetFlags()[5] ? this.INCO_END_DATE : (org.joda.time.DateTime) defaultValue(fields()[5], record.getConversion(5));
+        record.INCO_INPA_CUST_ID = fieldSetFlags()[6] ? this.INCO_INPA_CUST_ID : (java.lang.Long) defaultValue(fields()[6], record.getConversion(6));
+        record.INCO_INAG_ID = fieldSetFlags()[7] ? this.INCO_INAG_ID : (java.lang.Long) defaultValue(fields()[7], record.getConversion(7));
+        record.INCO_RENTABILITY = fieldSetFlags()[8] ? this.INCO_RENTABILITY : (java.lang.Long) defaultValue(fields()[8], record.getConversion(8));
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
