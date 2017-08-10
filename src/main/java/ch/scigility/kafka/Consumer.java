@@ -103,7 +103,7 @@ public class Consumer {
 			ConsumerRecords<String, String> records = consumer.poll(100);
 
 			for (ConsumerRecord<String, String> record : records){
-				System.out.println("record:");
+				System.out.println("RECORD BEGIN:");
 				System.out.printf(record.value());
 				try {
 					System.out.println("Deserialize:");
@@ -125,12 +125,14 @@ public class Consumer {
 							System.out.println("Sent");
 						} catch(SerializationException e) {
 						  System.out.println("SerializationException");
+							e.printStackTrace();
 						}
 					}
-					System.out.println("RECORD PROCESSED...");
+					System.out.println("RECORD END...");
 				}
-				catch (IOException ex) {
+				catch (IOException e) {
 					System.out.printf("IOException");
+					e.printStackTrace();
 				}
 				System.out.println("...");
 			}
