@@ -75,12 +75,12 @@ public class StreamProducerTest {
       oraPort + "/" +
       oraDbname;
     try {
-      OracleDataSource oraDataSource=new OracleDataSource();
-      oraDataSource.setUser(oraUser);
-      oraDataSource.setPassword(oraPwd);
-      oraDataSource.setURL(ConnectionURl);
-
-      Connection oraConnection = oraDataSource.getConnection();
+      // OracleDataSource oraDataSource=new OracleDataSource();
+      // oraDataSource.setUser(oraUser);
+      // oraDataSource.setPassword(oraPwd);
+      // oraDataSource.setURL(ConnectionURl);
+      //
+      // Connection oraConnection = oraDataSource.getConnection();
 
       // DatabaseMetaData dbmd = connection.getMetaData();
       // System.out.println("Driver Name: " + dbmd.getDriverName());
