@@ -14,12 +14,12 @@ import java.util.UUID;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Random;
-
+import org.apache.kafka.common.errors.SerializationException;
 import ch.scigility.kafka.canonical.JsonDeserializer;
 import ch.scigility.kafka.canonical.JsonSerializer;
 import ch.scigility.kafka.canonical.Landing;
 import ch.scigility.kafka.canonical.Partners;
-//import ch.scigility.kafka.canonical.ContractSchema;
+import ch.scigility.kafka.canonical.avro.ContractsSchema;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -31,6 +31,7 @@ import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.Serializer;
+
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 
@@ -41,7 +42,6 @@ import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.openx.data.jsonserde.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import com.google.gson.Gson;
@@ -64,7 +64,9 @@ public class Consumer {
 	public static void main(String[] args) throws IOException {
 
 		//String schema = String(Files.readAllBytes(Paths.get("resources/contract_schema.avsc"),StandardCharsets.UTF_8));
-		Schema schema = new Schema.Parser().parse(new File("resources/ContractSchema.avsc"));
+		System.out.println("Consumer procedure");
+		//Schema schema = new Schema.Parser().parse(new File("resources/ContractSchema.avsc"));
+		Schema schema = ContractsSchema.SCHEMA$;
 		// set up house-keeping
 		Properties props = new Properties();
 		props.put("zookeeper.connect", "127.0.0.1:2181");
@@ -92,79 +94,16 @@ public class Consumer {
 
 		// and the consumer
 		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-
 		consumer.subscribe(Arrays.asList("co_full_1"));
-
-		String value = "{ \n"+
-		"\"commandScn\": \"1195604\",\n"+
-		"\"commandCommitScn\": \"1195604\",\n"+
-		"\"commandSequence\": \"0\",\n"+
-		"\"commandType\": \"INSERT\",\n"+
-		"\"commandTimestamp\": \"2017-08-08 09:36:43+00:000\",\n"+
-		"\"objectDBName\": \"DB1\",\n"+
-		"\"objectSchemaName\": \"POC1\",\n"+
-		"\"objectId\": \"CORE_CONTRACTS\",\n"+
-		"\"changedFieldsList\": [\n"+
-		"   {\n"+
-		"       \"fieldId\": \"COCO_ID\",\n"+
-		"       \"fieldType\": \"NUMBER\",\n"+
-		"       \"fieldValue\": \"1\",\n"+
-		"       \"fieldChanged\": \"Y\"\n"+
-		"     },\n"+
-		"   {\n"+
-		"       \"fieldId\": \"COCO_TYPE\",\n"+
-		"       \"fieldType\": \"NUMBER\",\n"+
-		"       \"fieldValue\": \"2\",\n"+
-		"     \"fieldChanged\": \"Y\"\n"+
-		"   }\n"+
-		"    ]\n"+
-		"   }";
-		//SERDE Landing
-		System.out.println("SERDE Landing");
-		Map<String, Object> landingProps = new HashMap<>();
-
-		final Serializer<Landing> landingSerializer = new JsonSerializer<>();
-		landingProps.put("JsonPOJOClass", Landing.class);
-		landingSerializer.configure(landingProps, false);
-
-		final Deserializer<Landing> landingDeserializer = new JsonDeserializer<>();
-		landingProps.put("JsonPOJOClass", Landing.class);
-		landingDeserializer.configure(landingProps, false);
-
-		final Serde<Landing> LandingSerde = Serdes.serdeFrom(landingSerializer, landingDeserializer);
-
-		//SERDE Partner
-		System.out.println("SERDE Partner");
-		Map<String, Object> partnerProps = new HashMap<>();
-
-		final Serializer<Landing> partnerSerializer = new JsonSerializer<>();
-		partnerProps.put("JsonPOJOClass", Partners.class);
-		partnerSerializer.configure(partnerProps, false);
-
-		final Deserializer<Landing> partnerDeserializer = new JsonDeserializer<>();
-		partnerProps.put("JsonPOJOClass", Partners.class);
-		partnerDeserializer.configure(partnerProps, false);
-
-		final Serde<Landing> PartnerSerde = Serdes.serdeFrom(partnerSerializer, partnerDeserializer);
-
-		// System.out.println("Builder");
-		// System.out.println(value);
-		//
-		// System.out.println("ObjectMapper");
-		// Landing landing = new ObjectMapper().readValue(value, Landing.class);
-		// System.out.println(landing.getCommandScn());
-		// System.out.println(landing.getCommandCommitScn());
-		// System.out.println(landing.toString());
-
-		//Landing landing = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Landing.class);
+		System.out.println("KafkaProducer");
 		KafkaProducer producer = new KafkaProducer(props);
 
 		while (true) {
-
+			System.out.println("ConsumerRecords");
 			ConsumerRecords<String, String> records = consumer.poll(100);
 
 			for (ConsumerRecord<String, String> record : records){
-
+				System.out.println("record");
 				//Partners partners = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Partners.class);
 				//Partners partners = new Gson().fromJson(URLEncoder.encode(value, "UTF-8"), Partners.class);
 				try {
@@ -173,31 +112,25 @@ public class Consumer {
 					//Container container = new Gson().fromJson(URLEncoder.encode(record.value(), "UTF-8"), Container.class);
 
 					if(landing.getObjectId().equals("CORE_CONTRACTS")){
-						System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+						System.out.printf(record.value());
 						System.out.println(landing.toString());
 
+						ContractsSchema avroRecord = landing.toAvroCanonical();
+
 						//for all changedFieldsList
-						List<ChangedFieldsList> changedFieldsList = landing.getChangedFieldsList();
-						for (int i = 0; i < changedFieldsList.size(); i++) {
-							System.out.println(changedFieldsList.get(i).getFieldId());
-							System.out.println(changedFieldsList.get(i).getFieldValue());
-							//getFieldId
-							//getFieldValue
-							if( changedFieldsList.get(i).getFieldId().equals("COCO_ID") ){
-								//producer.send(new ProducerRecord<String,String>("co_full_out", "INCO_ID", changedFieldsList.get(i).getFieldValue()));
-								GenericRecord avroRecord = new GenericData.Record(schema);
-								avroRecord.put("INCO_ID",changedFieldsList.get(i).getFieldValue());
-
-								ProducerRecord<Object, Object> prodAvroRecord = new ProducerRecord<>("co_full_contracts", "avrokey", avroRecord);
-								producer.send(prodAvroRecord);
-
-							}
+						ProducerRecord<Object, Object> prodAvroRecord = new ProducerRecord<>("co_full_contracts", "avrokey", avroRecord);
+						try {
+						  producer.send(prodAvroRecord);
+						} catch(SerializationException e) {
+						  System.out.println("SerializationException");
 						}
 					}
+					System.out.println("RECORD PROCESSED...");
 				}
 				catch (IOException ex) {
 					System.out.printf("IOException");
 				}
+				System.out.println("...");
 			}
 		}
 	}

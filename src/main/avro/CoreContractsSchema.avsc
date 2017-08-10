@@ -1,0 +1,17 @@
+{
+  "namespace": "ch.scigility.kafka.canonical.avro",
+  "type": "record",
+  "name": "CoreContractsSchema",
+  "fields": [
+    {"name": "COCO_ID", "type": "long"},
+    {"name": "COCO_TYPE",  "type": "long"},
+    {"name": "COOC_COVERAGE",  "type": "long"},
+    {"name": "COCO_ANNUAL_PREMIUM",  "type": "long"},
+    {"name": "COCO_START_DATE",  "type": "long"},
+    {"name": "COCO_END_DATE",  "type": "long"},
+    {"name": "COCO_COCU_ID",  "type": "long"},
+    {"name": "COCO_COAG_ID",  "type": "long"},
+    {"name": "COCO_TOTAL_PAID_PREMIUMS",  "type": "long"},
+    {"name": "COCO_TOTAL_PAID_CLAIMS",  "type": "long"}
+  ]
+}

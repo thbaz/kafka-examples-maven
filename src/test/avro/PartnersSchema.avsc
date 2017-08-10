@@ -1,0 +1,15 @@
+{
+  "namespace": "ch.scigility.kafka.canonical",
+  "type": "record",
+  "name": "ContractSchema",
+  "fields": [
+    {"name": "INCO_ID", "type": "long"},
+    {"name": "INCO_TYPE",  "type": "long"},
+    {"name": "INCO_ANNUAL_PREMIUM",  "type": "long"},
+    {"name": "INCO_START_DATE",  "type": "long"},
+    {"name": "INCO_END_DATE",  "type": "long"},
+    {"name": "INCO_INPA_CUST_ID",  "type": "long"},
+    {"name": "INCO_INAG_ID",  "type": "long"},
+    {"name": "INCO_RENTABILITY",  "type": "long"}
+  ]
+}
