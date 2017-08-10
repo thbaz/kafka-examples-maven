@@ -114,7 +114,7 @@ public class ConsumerDelta {
 					Landing landing = new ObjectMapper().readValue(record.value(), Landing.class);
 					System.out.println(landing.toString());
 
-					if(landing.getObjectId().equals("CORE_CONTRACTS")){
+					if( landing.getObjectId().equals("CORE_CONTRACTS") ){
 						System.out.println("Threat Contracts:");
 						ContractsSchema avroRecord = landing.toAvroCanonical();
 						System.out.println(avroRecord.toString());

@@ -215,33 +215,45 @@ public class Landing implements Serializable
       for( ChangedFieldsList change: changedFieldsList ){
         switch(change.getFieldId()){
           case "COCO_ID":
+          if( change.getFieldValue() != null) {
             contractsAvro.put(0,new Long(change.getFieldValue()).longValue());
+          }
             break;
           case "COCO_TYPE":
+          if( change.getFieldValue() != null) {
             contractsAvro.put(1,new Long(change.getFieldValue()).longValue());
+          }
             break;
           case "COOC_COVERAGE":
+          if( change.getFieldValue() != null) {
             contractsAvro.put(2,new Long(change.getFieldValue()).longValue());
+          }
             break;
           case "COCO_ANNUAL_PREMIUM":
+          if( change.getFieldValue() != null) {
             contractsAvro.put(3,new Long(change.getFieldValue()).longValue());
+          }
             break;
           case "COCO_START_DATE":
             try {
-                Date date = f.parse(change.getFieldValue());
-                long milliseconds = date.getTime();
-                DateTime oradate = new org.joda.time.DateTime(milliseconds);
-                contractsAvro.put(4,oradate);
+              if( change.getFieldValue() != null) {
+                  Date date = f.parse(change.getFieldValue());
+                  long milliseconds = date.getTime();
+                  DateTime oradate = new org.joda.time.DateTime(milliseconds);
+                  contractsAvro.put(4,oradate);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             break;
           case "COCO_END_DATE":
             try {
-              Date date = f.parse(change.getFieldValue());
-              long milliseconds = date.getTime();
-              DateTime oradate = new org.joda.time.DateTime(milliseconds);
-              contractsAvro.put(5,oradate);
+              if( change.getFieldValue() != null) {
+                Date date = f.parse(change.getFieldValue());
+                long milliseconds = date.getTime();
+                DateTime oradate = new org.joda.time.DateTime(milliseconds);
+                contractsAvro.put(5,oradate);
+              }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -250,13 +262,16 @@ public class Landing implements Serializable
             //contractsAvro.put(6,new Long(change.getFieldValue()).longValue());
             break;
           case "COCO_COAG_ID":
-            contractsAvro.put(7,new Long(change.getFieldValue()).longValue());
+            if( change.getFieldValue() != null)
+              contractsAvro.put(7,new Long(change.getFieldValue()).longValue());
             break;
           case "COCO_TOTAL_PAID_PREMIUMS":
-            contractsAvro.put(8,new Long(change.getFieldValue()).longValue());
+            if( change.getFieldValue() != null)
+              contractsAvro.put(8,new Long(change.getFieldValue()).longValue());
             break;
           case "COCO_TOTAL_PAID_CLAIMS":
-            contractsAvro.put(8,(java.lang.Long)contractsAvro.get(8)-new Long(change.getFieldValue()).longValue());
+            if( change.getFieldValue() != null)
+              contractsAvro.put(8,(java.lang.Long)contractsAvro.get(8)-new Long(change.getFieldValue()).longValue());
             break;
         }
       }
